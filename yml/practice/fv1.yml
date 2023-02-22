@@ -1,0 +1,7 @@
+# ansible ansi-node1 -m setup
+- name: fact var
+  hosts: ansi-node1
+  gather_facts: yes
+  tasks:
+  - debug:
+      msg: "{{ ansible_facts }}"
