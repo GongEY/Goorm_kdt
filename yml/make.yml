@@ -1,0 +1,25 @@
+- name: make file and directory
+hosts: ansi-node1
+gather_facts: no
+tasks:
+    - name: make directory
+    file:
+    path: "/tmp/testdir1/testdir2"
+    state: directory
+    recurse: yes
+    owner: bin
+    group: bin
+    - name: make file
+    file:
+    path: "/tmp/testdir1/testdir2/test1.txt"
+    state: touch
+    owner: vagrant
+    group: vagrant
+    - name: input test.txt data
+    lineinfile:
+    dest: "/tmp/testdir1/testdir2/test1.txt"
+    line: "make file and dir1"
+    - name: create file
+    copy:
+    content: "mask file and dir2"
+    dest: "/tmp/testdir1/testdir2/test2.txt"
