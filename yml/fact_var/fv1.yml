@@ -1,0 +1,12 @@
+- name: facts vars
+hosts: ansi-node1
+tasks:
+    - debug:
+    msg: "{{ ansible_hostname }}"
+    - debug:
+    msg: "{{ ansible_facts.hostname }}"
+    - debug:
+    msg: "{{ ansible_enp0s8['ipv4']['address'] }}"
+    - debug:
+    msg: "{{ ansible_facts.enp0s8.ipv4.address }}"
+
