@@ -1,0 +1,8 @@
+- name: hash filter
+hosts: ansi-node1
+gather_facts: no
+tasks:
+    - debug:
+    msg: "{{ 'a' | hash('sha256') }}"
+    - debug:
+    msg: "{{ 'vagrant' | password_hash('sha512','i/uZX2Q9') }}"
