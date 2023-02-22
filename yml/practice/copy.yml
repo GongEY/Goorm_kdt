@@ -1,0 +1,9 @@
+- name: Copy play
+  hosts: ansi-node1
+  vars:
+    copyfile: /tmp/testfile
+  gather_facts: no
+  tasks:
+  - copy:
+      src: "{{ copyfile }}"
+      dest: /tmp/fileb
