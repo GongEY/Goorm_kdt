@@ -1,0 +1,15 @@
+- name: ipaddr filter
+hosts: ansi-node2
+gather_facts: no
+vars_prompt:
+    - name: ip_address
+    prompt: Input ip address
+    private: no
+    tasks:
+    - debug:
+    msg: "{{ ip_address | ipaddr }}"
+    - debug:
+    msg: "{{ ip_address | ipaddr('address') }}"
+    - debug:
+    msg: "{{ ip_address | ipaddr('10.0.0.0/8') }}"
+
