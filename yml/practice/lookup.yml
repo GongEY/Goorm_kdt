@@ -1,0 +1,8 @@
+ name: lookuptest
+  hosts: ansi-node1
+  vars:
+    hostname1: "{{ lookup('file','/etc/hostname') }}"
+  gather_facts: no
+  tasks:
+  - debug:
+      msg: "{{ hostname1 }}"
