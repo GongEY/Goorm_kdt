@@ -1,0 +1,11 @@
+# ansible ansi-node1 -m setup -a "filter=ansible_distribution"
+# ansible ansi-node1 -m setup -a "filter=ansible_hostname"
+
+- name: fact var
+  hosts: ansi-node1
+  gather_facts: yes
+  tasks:
+  - debug:
+      msg: "{{ ansible_facts.distribution }}"
+  - debug:
+      msg: "{{ ansible_facts['hostname'] }}"
