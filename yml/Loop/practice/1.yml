@@ -1,0 +1,16 @@
+- name: make dir
+  hosts: ansi-node1
+  gather_facts: no
+  tasks:
+  - file:
+      state: directory
+      path: "/{{ item }}"
+    loop:
+    - testa
+    - testb
+    - testc
+    
+# 아래 디렉토리 만들기
+#/testa/
+#/testb/
+#/testc/
