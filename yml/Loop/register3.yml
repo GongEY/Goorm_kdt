@@ -1,0 +1,12 @@
+- hosts: ansi-node1
+  gather_facts: no
+  tasks:
+    - command: id {{ item }}
+      loop:
+        - testuser01
+        - testuser02
+      register: id_result
+
+    - debug:
+        msg: "{{ item.stdout }}"
+      loop:  "{{ id_result.results }}"
