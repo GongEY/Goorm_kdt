@@ -1,0 +1,2 @@
+ansible playbook을 실행하는 데 필요한 yml 파일들.
+ansible playbook **.yml 와 같이 실행한다.
