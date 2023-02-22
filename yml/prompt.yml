@@ -1,0 +1,13 @@
+- hosts: ansi-node2
+vars_prompt:
+    - name: filename
+    prompt: file name input
+    private: no
+    tasks:
+    - name: file create
+    file:
+    state: touch
+    path: /home/vagrant/{{ filename }}
+    mode: '0644'
+    owner: vagrant
+    group: vagrant
