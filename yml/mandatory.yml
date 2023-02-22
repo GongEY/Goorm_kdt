@@ -1,0 +1,9 @@
+- name: default filter
+hosts: localhost
+vars:
+var1: test
+tasks:
+    - name: var print
+    debug:
+    msg: "{{ var1 | mandatory }}"
+
