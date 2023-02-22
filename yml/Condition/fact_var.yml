@@ -1,0 +1,60 @@
+# 예 1) os_family
+tasks:
+  - name: Shut down Debian flavored systems
+    ansible.builtin.command: /sbin/shutdown -t now
+    when: ansible_facts['os_family'] == "Debian"
+    #or
+    #when: ansible_os_family == "Debian"
+  
+
+# 예 2) fact 의 내용이 목록 변수에 해당 유무에 따른 실행
+vars:
+  supported_distros:
+    - Centos
+    - Fedora
+
+tasks:
+  - name: Install httpd using yum, where supported
+    yum:
+      name: httpd
+      state: present
+    when: ansible_distribution in supported_distros
+
+
+
+# 예 3) 복수 조건에 따른 실행
+tasks:
+  - name: Shut down CentOS 6 and Debian 7 systems
+    ansible.builtin.command: /sbin/shutdown -t now
+    when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "6") or
+          (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "7")
+
+#=> 여러 조건이 있는 경우 괄호를 사용해 연산의 우선 순위를 그룹화 할 수 있고, and, or 연산을 사용할 수 있음
+
+
+# 예 4) 조건 목록
+
+tasks:
+- name: Shut down CentOS 6 systems
+  ansible.builtin.command: /sbin/shutdown -t now
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "6" #and연산으로 생각하면 됨
+# 예 5) 
+
+- hosts: host4
+  tasks:
+    - debug:
+        msg:  "{{ ansible_os_family }}"
+
+    - name: install AA for Debian
+      apt:
+        name: apache2
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: install AA for RHEL
+      yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == "RedHat"
