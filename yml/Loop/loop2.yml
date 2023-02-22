@@ -1,0 +1,8 @@
+- name: add several users
+  user:
+    name: "{{ item }}"
+    state: present
+    groups: "bin"
+  loop:
+    - testuser1
+    - testuser2
