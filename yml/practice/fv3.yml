@@ -1,0 +1,14 @@
+- name: set_fact var
+  hosts: ansi-node1
+  gather_facts: yes
+  vars:
+    var1: "{{ ansible_hostname }}"
+  tasks:
+  - debug:
+      msg: "{{ var1 }}"
+
+  - set_fact:
+      var1: "{{ ansible_distribution }}"
+
+  - debug:
+      msg: "{{ var1 }}"
