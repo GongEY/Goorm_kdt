@@ -1,0 +1,21 @@
+- name: Create user
+  hosts: ansi-node1
+  vars_prompt:
+  - name: username
+    prompt: username
+    private: no
+  - name: user_id
+    prompt: uid
+    private: no
+
+  - name: user_shell
+    prompt: shell
+    private: no
+
+  gather_facts: no
+
+  tasks:
+  - user:
+      name: "{{ username }}"
+      uid: "{{ user_id }}"
+      shell: "{{ user_shell }}"
