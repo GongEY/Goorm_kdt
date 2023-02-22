@@ -1,0 +1,14 @@
+- apt:
+      name: "{{ pkg_list }}"
+      state: present
+
+# apt install apache2 firewalld bind9
+
+ - apt:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ pkg_list }}"
+
+#apt install apache2
+#apt install firewalld
+#apt install bind9
