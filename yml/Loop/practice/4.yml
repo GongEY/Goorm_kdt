@@ -1,0 +1,10 @@
+- name:
+  hosts: DD
+  tasks:
+  - file:
+      name: /tmp/hostname_ip
+      state: touch
+  - lineinfile:
+      path: /tmp/hostname_ip
+      line: "{{ hostvars[item].ansible_facts.enp0s8.ipv4.address }}  {{ hostvars[item].ansible_facts.hostname }}"
+    loop: "{{ groups.DD }}"
