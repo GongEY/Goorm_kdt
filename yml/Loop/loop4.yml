@@ -1,0 +1,9 @@
+- name: optimal yum
+  apt:
+    name: "{{ list_of_packages }}"
+    state: present
+- name: non-optimal yum, slower and may cause issues with interdependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ list_of_packages }}"
