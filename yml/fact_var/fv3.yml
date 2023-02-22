@@ -1,0 +1,17 @@
+### 사용자 지정 팩트변수 (ansible_local)
+#ssh ansi-node1 (노트 ssh 연결)
+#sudo mkdir -p /etc/ansible/facts.d/
+#sudo vi /etc/ansible/facts.d/ex.fact
+###
+#[example]
+#study=ansible
+#os=ubuntu
+
+- name: local_fact
+hosts: ansi-node1
+gather_facts: yes
+tasks:
+    - debug:
+    msg: "{{ ansible_local.ex.example.os }}"
+
+
