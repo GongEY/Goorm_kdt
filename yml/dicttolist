@@ -1,0 +1,13 @@
+- name: dict2items filter
+hosts: ansi-node1
+vars
+dic1:
+a: 1
+b: 2
+tasks:
+    - name: dict2list
+    debug:
+    msg: "{{ dic1 | dict2items }}"
+    - name: dict2list
+    debug:
+    msg: "{{ dic1 | dict2items(key_name='alph',value_name='int') }}"
