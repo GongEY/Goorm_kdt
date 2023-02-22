@@ -1,0 +1,10 @@
+- name: lookuptest
+  hosts: ansi-node1
+  vars:
+    dic1:
+      user01: 123 # id: pw
+      user02: 456
+  gather_facts: no
+  tasks:
+  - debug:
+      msg: "{{ dic1 | dict2items(key_name='id',value_name='pw') }}"
