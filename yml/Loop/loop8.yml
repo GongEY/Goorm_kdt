@@ -1,0 +1,7 @@
+- debug:
+    msg: "{{ item }}"
+  loop: "{{ groups['all'] }}"
+
+- debug:
+    msg: "{{ item }}"
+  loop: "{{ query('inventory_hostnames', 'all') }}"
