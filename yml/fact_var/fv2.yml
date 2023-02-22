@@ -1,0 +1,13 @@
+- name: setfact
+hosts: ansi-node1
+gather_facts: no
+vars:
+var1: abc
+tasks:
+    - debug:
+    msg: "{{ var1 }}"
+    - set_fact:
+    var1: 123
+    - debug:
+    msg: "{{ var1 }}"
+
