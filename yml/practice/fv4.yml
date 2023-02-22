@@ -1,0 +1,29 @@
+
+- name: local_fact file
+  hosts: ansi-master1
+  gather_facts: no
+  tasks:
+  - copy:
+      content: "[localfacts]\npkgname=samba\nsrvc=smbd\nstate=present\n"
+      dest: /home/vagrant/ansitest/local.fact
+
+- name: local_fact make
+  hosts: BB
+  tasks:
+  - file:
+      state: directory
+      path: /etc/ansible/facts.d/
+      recurse: yes
+  - copy:
+      src: /home/vagrant/ansitest/local.fact
+      dest: /etc/ansible/facts.d/local.fact
+  - setup:
+
+  - apt:
+      name: "{{ ansible_local.local.localfacts.pkgname }}"
+      state: "{{ ansible_local.local.localfacts.state }}"
+
+  - service:
+      name: "{{ ansible_local.local.localfacts.srvc }}"
+      state: started
+      enabled: yes
