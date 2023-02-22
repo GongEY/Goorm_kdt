@@ -1,0 +1,13 @@
+- name: ls_reult
+  hosts: ansi-node2
+  gather_facts: no
+  tasks:
+  - command: ls -l /
+    register: a_result
+  - file:
+      state: touch
+      path: /tmp/result_ls
+  - lineinfile:
+      path: /tmp/result_ls
+      line: "{{ item }}"
+    loop: "{{ a_result.stdout_lines }}"
