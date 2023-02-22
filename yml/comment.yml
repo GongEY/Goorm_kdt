@@ -1,0 +1,8 @@
+- name: comment filter
+hosts: ansi-node1
+gather_facts: no
+tasks:
+    - debug:
+    msg: "{{ 'aaa\nbbb' | comment }}"
+    - debug:
+    msg: "{{ 'aaa\nbbb' | comment(decoration='!') }}"
