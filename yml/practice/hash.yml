@@ -1,0 +1,6 @@
+- name: hashtest
+  hosts: ansi-node1
+  gather_facts: no
+  tasks:
+  - debug:
+      msg: "{{ '123' | password_hash('sha256','1234') }}" #sha256 알고리즘, 1234 솔트
