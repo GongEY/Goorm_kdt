@@ -1,0 +1,13 @@
+- name: hostname lookup
+hosts: ansi-node1
+vars:
+m_hostname: "{{ lookup('file', '/etc/hostname') }}"
+tasks:
+    - name: var print
+    debug:
+    msg: "{{ m_hostname }}"
+- name: url lookup
+hosts: ansi-node2
+    - name: display ip ranges
+    debug:
+    msg: "{{ lookup('url', 'https://ip-ranges.amazonaws.com/ip-ranges.json', split_lines=False) }}"
