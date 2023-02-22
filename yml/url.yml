@@ -1,0 +1,11 @@
+- name: url filter
+hosts: ansi-node1
+gather_facts: no
+tasks:
+    - debug:
+    msg: "{{ 'http://user:password@www.acme.com:9000/dir/index.html?query=term#fragment' | urlsplit }}"
+    - debug:
+    msg: "{{ 'http://user:password@www.acme.com:9000/dir/index.html?query=term#fragment' | urlsplit('hostname') }}"
+    - debug:
+    msg: "{{ 'http://user:password@www.acme.com:9000/dir/index.html?query=term#fragment' | urlsplit('port') }}"
+
