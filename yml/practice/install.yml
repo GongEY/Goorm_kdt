@@ -1,0 +1,12 @@
+- name: Inatll Package
+  hosts: ansi-node1
+  vars_prompt:
+  - name: package
+    prompt: choice package
+    private: no
+  gather_facts: no
+  tasks:
+  - apt:
+      name: "{{ package }}"
+      state: latest
+      update_cache: yes
