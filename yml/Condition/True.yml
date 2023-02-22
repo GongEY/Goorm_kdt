@@ -1,0 +1,36 @@
+# SELinux가 활성화된 시스템에서만 해당 작업이 실행
+
+hosts: ansi-node1
+tasks:
+  - name: Configure SELinux to start mysql on any port
+    ansible.posix.seboolean:
+      name: mysql_connect_any
+      state: true
+      persistent: yes
+    when: ansible_selinux.status == "enabled"
+
+
+# 변수의 값이 True 일경우에만 작업 실행
+
+hosts: ansi-node1
+vars:
+  run_my_task: true
+
+tasks:
+  - name: apache2 package is installed
+    apt:
+      name: apache2
+      state: present
+    when: run_my_task
+
+# 변수가 선언되어야 지만 실행
+
+vars:
+  my_service: apache2
+
+tasks:
+  - name: "{{ my_service }} package is installed"
+    apt:
+      name: "{{ my_service }}"
+      state: present
+    when: my_service is defined
