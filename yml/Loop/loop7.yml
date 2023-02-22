@@ -1,0 +1,12 @@
+- hosts: databases
+  vars:
+    my_users: [ 'alice', 'bob' ]
+    my_dbs: [ 'clientdb', 'employeedb', 'providerdb' ]
+  tasks:
+  - name: give users access to multiple databases
+    mysql_user:
+      name: "{{ item[0] }}"
+      priv: "{{ item[1] }}.*:ALL"
+      append_privs: yes
+      password: "foo"
+    loop: "{{ my_users | product( my_dbs ) | list }}"
