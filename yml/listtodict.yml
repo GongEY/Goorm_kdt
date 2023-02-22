@@ -1,0 +1,13 @@
+- name: list2dict filter
+hosts: ansi-node1
+gather_facts: no
+vars:
+list1:
+    - key: a1
+    value: 1
+    - key: b1
+    value: 2
+    tasks:
+    - debug:
+    msg: "{{ list1 | items2dict }}"
+
