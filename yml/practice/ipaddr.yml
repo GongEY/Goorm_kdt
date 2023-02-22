@@ -1,0 +1,9 @@
+# sudo apt install python-pip
+# sudo pip install netaddr
+
+- name: ipaddrtest
+  hosts: ansi-node1
+  gather_facts: no
+  tasks:
+  - debug:
+      msg: "{{ '100.100.100.100' | ipaddr }}"
