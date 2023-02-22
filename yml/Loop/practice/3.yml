@@ -1,0 +1,13 @@
+- name: create user
+  hosts: ansi-node3
+  gather_facts: no
+  vars:
+    user_info:
+    - ['user01','aaaa']
+    - ['user02','bbbb']
+    - ['user03','cccc']
+  tasks:
+  - user:
+      name: "{{ item[0] }}"
+      password: "{{ item[1] | password_hash('sha512','123456') }}"
+    loop: "{{ user_info }}"
