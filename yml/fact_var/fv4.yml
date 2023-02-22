@@ -1,0 +1,27 @@
+- name: local_facts_conf
+hosts: ansi-node2,ansi-node3
+tasks:
+    - name: make directory
+    file:
+    path: /etc/ansible/facts.d/
+    state: directory
+    - name: make test1.fact
+    file:
+    path: /etc/ansible/facts.d/test1.fact
+    state: touch
+    - name: Write test1.fact
+    lineinfile:
+    path: /etc/ansible/facts.d/test1.fact
+    line: "[custom]\nhostname={{ ansible_hostname }}\naddress={{ ansible_enp0s8.ipv4.address }}"
+    - name: Create test2.fact
+    copy:
+    content: "[user]\nid={{ ansible_hostname }}_admin\npw=1"
+    dest: /etc/ansible/facts.d/test2.fact
+    - name: Gathering Facts
+    setup:
+    - name: local_fact print
+    debug:
+    msg: "{{ ansible_local }}"
+    - name: local_fact hostname print
+    debug:
+    msg: "{{ ansible_local.test1.custom.hostname }}"
