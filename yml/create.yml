@@ -1,0 +1,24 @@
+- name: create file & directory
+hosts: ansi-node2,ansi-node3
+gather_facts: no
+vars_prompt:
+    - name: f_name
+    prompt: Input FileName
+    private: no
+    - name: d_name
+    prompt: Input DirectoryName
+    private: no
+    
+    tasks:
+    - name: Create Directory
+    file:
+    state: directory
+    path: /home/vagrant/{{ d_name }}
+    owner: vagrant
+    group: vagrant
+    - name: Create File
+    file:
+    state: touch
+    path: "/home/vagrant/{{ d_name }}/{{ f_name }}"
+    owner: vagrant
+    group: vagrant
