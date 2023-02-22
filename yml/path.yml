@@ -1,0 +1,8 @@
+- name: path filter
+hosts: ansi-node1
+gather_facts: no
+tasks:
+    - debug:
+    msg: "{{ '/etc/sysconfig/network-scripts/ifcfg-static' | basename }}"
+    - debug:
+    msg: "{{ '/etc/sysconfig/network-scripts/ifcfg-static' | dirname }}"
