@@ -1,0 +1,69 @@
+#예 1) contents.stdout
+
+- name: Test play
+  hosts: all
+
+  tasks:
+
+      - name: Register a variable
+        ansible.builtin.shell: cat /etc/motd
+        register: motd_contents
+
+      - name: Use the variable in conditional statement
+        ansible.builtin.shell: echo "motd contains the word hi"
+        when: motd_contents.stdout.find('hi') != -1
+
+
+# 예 2) 변수가 목록인 경우 작업 루프에서 등록된 결과를 사용
+
+- name: Registered variable usage as a loop list
+  hosts: all
+  tasks:
+
+    - name: Retrieve the list of home directories
+      ansible.builtin.command: ls /home
+      register: home_dirs
+
+    - name: Add home dirs to the backup spooler
+      ansible.builtin.file:
+        path: /mnt/bkspool/{{ item }}
+        src: /home/{{ item }}
+        state: link
+      loop: "{{ home_dirs.stdout_lines }}"
+      # same as loop: "{{ home_dirs.stdout.split() }}" #변수가 목록이 아닌 경우 split() 를 사용 하여 목록으로 변환
+
+
+# 예 3) register 변수의 stdout이 비어 있는 호스트에서만 다른 작업을 실행
+
+tasks:
+
+      - name: List contents of directory
+        ansible.builtin.command: ls mydir
+        register: contents
+
+      - name: Check contents for emptiness
+        ansible.builtin.debug:
+          msg: "Directory is empty"
+        when: contents.stdout == ""
+
+
+# 예 4)  작업의 성공 또는 실패를 기반으로 하는 조건
+
+tasks:
+  - name: Register a variable, ignore errors and continue
+    ansible.builtin.command: /bin/false
+    register: result
+    ignore_errors: true
+
+  - name: Run only if the task that registered the "result" variable fails
+    ansible.builtin.command: /bin/something
+    when: result is failed
+
+  - name: Run only if the task that registered the "result" variable succeeds
+    ansible.builtin.command: /bin/something_else
+    when: result is succeeded
+
+  - name: Run only if the task that registered the "result" variable is skipped
+    ansible.builtin.command: /bin/still/something_else
+    when: result is skipped
+
