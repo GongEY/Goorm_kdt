@@ -1,0 +1,25 @@
+tasks:
+
+  - shell: /usr/bin/foo
+    register: result
+    ignore_errors: True
+
+  - debug:
+      msg: "it failed"
+    when: result is failed
+
+  - debug:
+      msg: "it changed"
+    when: result is changed
+
+  - debug:
+      msg: "it succeeded in Ansible >= 2.1"
+    when: result is succeeded
+
+  - debug:
+      msg: "it succeeded"
+    when: result is success
+
+  - debug:
+      msg: "it was skipped"
+    when: result is skipped
