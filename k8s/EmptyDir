@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs-fortune
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp-rs-fortune
+  template:
+    metadata:
+      labels:
+        app: myapp-rs-fortune
+    spec:
+      containers: 
+      - name: web-server # 주기능을 하는 웹 서버 컨테이너
+        image: nginx:alpine 
+        volumeMounts:
+        - name: web-fortune # 생성한 볼륨 마운트
+          mountPath: /usr/share/nginx/html # 볼륨과 디렉터리 링크
+          readOnly: true
+        ports:
+        - containerPort: 80 
+        # 요청이 들어왔을때 웹서버에 접속해야하기 때문에 해당 컨테이너의 포트만 뚫는다
+      - name: html-generator # 보조기능을 하는 이미지 생성 컨테이너
+        image: ghcr.io/c1t1d0s7/fortune
+        volumeMounts:
+        - name: web-fortune # 생성한 볼륨 마운트
+          mountPath: /var/htdocs # 볼륨과 디렉터리 링크
+        # 요청이 보조기능을 하는 컨테이너에 들어가면 안되기때문에 포트를 안뚫는다
+      volumes:
+      - name: web-fortune # 마운트할 볼륨 생성
+        emptyDir: {}
