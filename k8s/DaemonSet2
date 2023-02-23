@@ -1,23 +1,18 @@
-apiVersion: apps/v1 # 버전 확인 
-kind: ReplicaSet
+apiVersion: apps/v1
+kind: DaemonSet
 metadata:
-  name: myapp-rs-exp
+  name: myapp-ds
 spec:
-  replicas: 3
   selector:
-    matchExpressions: # 집합성 기준 추가 (rc와 다른점)
-      - key: app
-        operator: In
-        values:
-          - myapp-rs-exp
-      - key: env
-        operator: Exists
+    matchLabels:
+      app: myapp-ds
   template:
     metadata:
       labels:
-        app: myapp-rs-exp
-        env: dev
+        app: myapp-ds
     spec:
+      nodeSelector: # 모든노드가 아닌 특정 노드에만 파드배치
+        node: development # 노드의 레이블 선택
       containers:
       - name: myapp
         image: ghcr.io/c1t1d0s7/go-myweb:alpine
