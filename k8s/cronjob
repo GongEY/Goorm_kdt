@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: myapp-cj
+spec: # cronjob의 스펙
+  schedule: "* * * * *"
+  jobTemplate:
+    spec: # jpb의 스펙
+      template:
+        metadata:
+           labels:
+             app: myapp-cj
+        spec: # 파드의 스펙 
+          restartPolicy: OnFailure
+          containers:
+          - name: sleep
+            image: busybox
+            command: ["sleep", "50"]
