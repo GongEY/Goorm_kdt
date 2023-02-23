@@ -1,0 +1,25 @@
+apiVersion: apps/v1 # 버전이 다르다
+kind: ReplicaSet
+metadata:
+  name: replicatest
+spec:
+  replicas: 5
+  selector:
+    matchLabels: # 일치성 기준 (rc와 다른점)
+      gong: good
+  template:
+    metadata:
+      labels:
+        gong: good
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        livenessProbe:
+          exec:
+            command: 
+            - cat
+            - /etc/passwd
