@@ -1,0 +1,17 @@
+#볼륨을 이용한 컨피그맵 참조     
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo # 볼륨 마운트 
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes: 
+  - name: foo # 컨피그맵을 참조한 볼륨 생성 
+    configmap: 
+      name: myconfigma
