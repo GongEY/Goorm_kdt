@@ -1,0 +1,40 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata: 
+#  name: develop
+# develop 네임스페이스 생성
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  namespace: develop # 이전에 생성한 네임스페이스 지정 
+  labels: # 키:벨류 레이블 추가 
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/version: "5.7" # 문자열 주의
+    app.kubernetes.io/component: database
+  annotations: # 어노테이션 추가
+    make: gong
+spec: 
+  containers:
+  - name: mysdb
+    image: mysql:5.7
+    ports:
+    - containerPort: 3306 # mysql기본 port
+      protocol: TCP 
+    env: # mysql의 환경변수 작성
+    - name: MYSQL_ROOT_PASSWORD 
+      value: password
+    startupProbe: # startupprobe작성
+      exec: # exec방식
+        command: # shell 형태로 명령어 작성
+        - mysqladmin 
+        - ping 
+      periodSeconds: 30 
+      failureThreshold: 5
+      # 주기와 연속실패횟수 설정
+    livenessProbe: 
+      exec: 
+        command: ['mysqladmin','ping'] # exec형태로 명령어 작성 
+      periodSeconds: 10
+      failureThreshold: 3
