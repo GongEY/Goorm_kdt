@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  labels:
+    app: myapp-deploy
+spec:
+  strategy: # 배포전략
+    type: RollingUpdate # or recreate
+    rollingUpdate: # rolling update 선택시 옵션 선택 
+      maxUnavailable: 1 
+      maxSurge: 1
+  minReadySeconds: 20
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp-deploy
+  template:
+    metadata:
+      labels:
+        app: myapp-deploy
+    spec:
+      containers:
+      - image: ghcr.io/c1t1d0s7/go-myweb:v1.0 # 버전 수정 
+        name: myapp
+        ports:
+        - containerPort: 8080
